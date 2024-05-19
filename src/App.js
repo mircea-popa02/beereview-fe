@@ -8,7 +8,8 @@ function App() {
     // localhost:5000/breweries
     fetch('http://localhost:5000/breweries')
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => setBreweries(data))
+      .catch((error) => console.log(error))
   });
 
   return (

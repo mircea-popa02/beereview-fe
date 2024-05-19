@@ -1,0 +1,90 @@
+body {
+    background-color: #c3c3c3;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    background-image: url('../images/background.jpg');
+    background-size: cover;  
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.form {
+    margin: 0;
+    padding: 1em;
+    border: 2px solid #c7c7c7;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    max-width: 256px;
+}
+
+.form input {
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin: 10px auto;
+    border: 2px solid #c7c7c7;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.form button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 4px auto;
+}
+
+.form button:hover {
+    background-color: #3e9042;
+}
+
+.login_box {
+    border: none;
+    border-radius: 8px;
+    max-width: 380px;
+    background-color: #ffffff;
+    margin: 10vh auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 8px 8px 8px #a5a5a5;
+}
+
+.login_box img {
+    width: 120px;
+    height: 180px;
+    margin: auto;
+    padding: 16px;
+}
+
+.bottom {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+.bottom p {
+    text-align: center;
+    width: 75%;
+    border-top: 2px solid #c7c7c7;
+    padding-top: 16px;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.bottom p a {
+    color: #833737;
+    text-decoration: none;
+}
+
+.bottom p a:hover {
+    color: #5c2121;
+}
