@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../images/logo.png';
 import '../styles/Login.css';
+import { Container, Form, Button, Row, Col, Alert } from 'react-bootstrap';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate(); // Get access to the navigate object
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,7 +40,7 @@ const Login = () => {
           throw new Error('Invalid username or password');
         }
 
-        const data = await response.json().then((data) => data);
+        const data = await response.json();
         
         localStorage.setItem('token', data.access_token);
 
@@ -52,37 +53,40 @@ const Login = () => {
   }
 
   return (
-    <div className="login_box">
-      <img src={logo} alt="Logo"></img>
-      <form className="form" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        {error && <p style={{ color: 'red', fontWeight: 500 }}>{error}</p>}
-        <button type="submit">Sign In</button>
-      </form>
-
-      <div className="bottom">
-        <p>
-        New around here? <a href='/register'>Sign up!</a>
-        </p>
-      </div>
-    </div>
+    <Container className='login-container'>
+      <Row className="justify-content-center">
+        <Col xs={12} md={4}>
+          <div className="text-center mb-4">
+            <img src={logo} alt="Logo" className='img-fluid'></img>
+          </div>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="username" className="mb-3">
+              <Form.Label>Username</Form.Label>
+              <Form.Control
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group controlId="password" className="mb-3">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Form.Group>
+            {error && <Alert variant="danger">{error}</Alert>}
+            <Button variant="primary" type="submit" className="w-100">Sign In</Button>
+          </Form>
+          <div className="text-center mt-3">
+            <p>
+              New around here? <a href='/register'>Sign up!</a>
+            </p>
+          </div>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
