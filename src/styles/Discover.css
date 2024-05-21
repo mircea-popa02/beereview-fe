@@ -9,3 +9,10 @@
     background-color: white;
     padding: 16px;
 }
+
+.review {
+    background-color: #e4e4e4;
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
