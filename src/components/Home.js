@@ -1,11 +1,10 @@
-import React from 'react';
+import React from "react";
+import CustomNavbar from "./Navbar";
 
 const Home = () => {
-    return (
-        <>
-            <h2>TODO - Home page</h2>
-        </>
-    );
+  return (
+    <CustomNavbar />
+  );
 };
 
-export default Home
+export default Home;

@@ -39,11 +39,10 @@ const Login = () => {
           throw new Error('Invalid username or password');
         }
 
-        const data = await response.json();
-        const { token } = data;
-        localStorage.setItem('token', token);
+        const data = await response.json().then((data) => data);
+        
+        localStorage.setItem('token', data.access_token);
 
-        // Redirect the user to the home page or another page
         navigate('/home');
       } catch (error) {
         setError('Invalid username or password');
