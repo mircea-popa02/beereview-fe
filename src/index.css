@@ -15,11 +15,42 @@ code {
 }
 
 .search-bar {
-  width: 10rem;
+  width: 18rem;
 }
 
 .search-results {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
   gap: 1rem;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.card-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.star-empty {
+  color: #6c757d;
+}
+
+.star-full {
+  color: #ffd700;
+}
+
+.taste-badge {
+  background-color: #ccc;
+  margin-right: 20px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.taste-badge.selected {
+  transform: scale(1.1);
 }

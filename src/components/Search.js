@@ -5,7 +5,7 @@ import { Button } from "react-bootstrap";
 import { useEffect } from "react";
 import Spinner from 'react-bootstrap/Spinner';
 import { Card } from "react-bootstrap";
-
+import Review from "./Review";
 
 const Search = () => {
   const [search, setSearch] = useState("");
@@ -123,7 +123,7 @@ const Search = () => {
               searchResults.slice(0, 15).map((beer) => {
                 return (
                   <Card style={{ width: "18rem" }}>
-                    <Card.Body>
+                    <Card.Body className="card-body">
                       <Card.Title>{beer.name}</Card.Title>
                       <Card.Text>{beer.cat_name}</Card.Text>
                       <Card.Text>{beer.style_name}</Card.Text>
@@ -131,16 +131,19 @@ const Search = () => {
                         {beer.abv ? parseFloat(beer.abv).toFixed(2) : "N/A"}%
                         alcohol
                       </Card.Text>
-                      <Button
-                        variant="primary"
-                        onClick={() => {
-                          alert(
-                            `Brewery Name: ${beer.brewery.name} \nCity: ${beer.brewery.city} \nState: ${beer.brewery.state} \nCountry: ${beer.brewery.country} \nCategory: ${beer.cat_name} \nStyle: ${beer.style_name} \nABV: ${beer.abv} \nIBU: ${beer.ibu}`
-                          );
-                        }}
-                      >
-                        Details
-                      </Button>
+                      <Container className="card-buttons">
+                        <Button
+                          variant="primary"
+                          onClick={() => {
+                            alert(
+                              `Brewery Name: ${beer.brewery.name} \nCity: ${beer.brewery.city} \nState: ${beer.brewery.state} \nCountry: ${beer.brewery.country} \nCategory: ${beer.cat_name} \nStyle: ${beer.style_name} \nABV: ${beer.abv} \nIBU: ${beer.ibu}`
+                            );
+                          }}
+                        >
+                          Details
+                        </Button>
+                        <Review beerId={beer.id} />
+                      </Container>
                     </Card.Body>
                   </Card>
                 );
