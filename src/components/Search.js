@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import CustomNavbar from "./Navbar";
-import { Container, Form, Button, Spinner, Card } from "react-bootstrap";
+import { Container, Form } from "react-bootstrap";
+import { Button } from "react-bootstrap";
+import Spinner from 'react-bootstrap/Spinner';
+import { Card } from "react-bootstrap";
+import Review from "./Review";
 import BeerModal from "./BeerModal";
 import "../styles/Search.css";
 
@@ -191,7 +195,7 @@ const Search = () => {
               {displayedResults &&
                 displayedResults.map((beer) => (
                   <Card key={beer.id} style={{ width: "18rem" }}>
-                    <Card.Body>
+                    <Card.Body className="card-body">
                       <Card.Title>{beer.name}</Card.Title>
                       <Card.Text>{beer.cat_name}</Card.Text>
                       <Card.Text>{beer.style_name}</Card.Text>
@@ -199,6 +203,7 @@ const Search = () => {
                         {beer.abv ? parseFloat(beer.abv).toFixed(2) : "N/A"}%
                         alcohol
                       </Card.Text>
+                        <Container className="card-buttons">
                       <Button
                         variant="primary"
                         onClick={() => {
@@ -207,6 +212,8 @@ const Search = () => {
                       >
                         Details
                       </Button>
+                            <Review beerId={beer.id} />
+                        </Container>
                     </Card.Body>
                   </Card>
                 ))}
