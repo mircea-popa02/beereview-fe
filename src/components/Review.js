@@ -16,7 +16,7 @@ const addFontAwesome = () => {
 function Review({beerId}) {
     const [show, setShow] = useState(false);
     const [rating, setRating] = useState(0);
-    const [selectedProfile, setSelectedProfile] = useState('');
+    const [selectedProfiles, setSelectedProfiles] = useState([]);
     const [message, setMessage] = useState('');
 
     useEffect(() => {
@@ -31,14 +31,18 @@ function Review({beerId}) {
     };
 
     const handleBadgeClick = (profile) => {
-        setSelectedProfile(profile === selectedProfile ? '' : profile);
+        setSelectedProfiles((prevSelectedProfiles) =>
+            prevSelectedProfiles.includes(profile)
+                ? prevSelectedProfiles.filter((p) => p !== profile)
+                : [...prevSelectedProfiles, profile]
+        );
     };
 
     const handleSave = async () => {
         const reviewData = {
             beer_id: beerId,
             rating: rating,
-            tastes: selectedProfile,
+            tastes: selectedProfiles,
             review: message,
         };
 
@@ -96,7 +100,7 @@ function Review({beerId}) {
                                         key={profile}
                                         pill
                                         bg={profile === 'Sweet' ? 'primary' : profile === 'Sour' ? 'dark' : 'secondary'}
-                                        className={`taste-badge ${selectedProfile === profile ? 'selected' : ''}`}
+                                        className={`taste-badge ${selectedProfiles.includes(profile) ? 'selected' : ''}`}
                                         onClick={() => handleBadgeClick(profile)}
                                         style={{
                                             cursor: 'pointer',
