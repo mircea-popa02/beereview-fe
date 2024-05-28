@@ -1,9 +1,6 @@
-import {useEffect, useState} from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
+import { useEffect, useState } from 'react';
+import { Badge, Button, Form, Modal, Container } from 'react-bootstrap';
 import Rating from 'react-rating';
-import Badge from 'react-bootstrap/Badge';
 
 const addFontAwesome = () => {
     const link = document.createElement("link");
@@ -13,7 +10,7 @@ const addFontAwesome = () => {
     document.head.appendChild(link);
 };
 
-function Review({beerId}) {
+function Review({ beerId }) {
     const [show, setShow] = useState(false);
     const [rating, setRating] = useState(0);
     const [selectedProfiles, setSelectedProfiles] = useState([]);
@@ -68,9 +65,11 @@ function Review({beerId}) {
         handleClose();
     };
 
+    const tasteProfiles = ['Sweet', 'Sour', 'Bitter', 'Malt', 'Smoke', 'Tart & Funky'];
+
     return (
         <>
-            <Button variant="secondary" onClick={handleShow}>
+            <Button variant="info" onClick={handleShow}>
                 Add Review
             </Button>
 
@@ -84,8 +83,8 @@ function Review({beerId}) {
                             <Form.Label>Rating</Form.Label>
                             <div>
                                 <Rating
-                                    emptySymbol={<i className="fa fa-star-o fa-2x" style={{color: '#ddd'}}></i>}
-                                    fullSymbol={<i className="fa fa-star fa-2x" style={{color: '#ffd700'}}></i>}
+                                    emptySymbol={<i className="fa fa-star-o fa-2x" style={{ color: '#ddd' }}></i>}
+                                    fullSymbol={<i className="fa fa-star fa-2x" style={{ color: '#ffd700' }}></i>}
                                     initialRating={rating}
                                     onChange={handleRatingChange}
                                 />
@@ -95,22 +94,36 @@ function Review({beerId}) {
                         <Form.Group className="mb-3" controlId="tasteProfileInput">
                             <Form.Label>Taste profile</Form.Label>
                             <div>
-                                {['Sweet', 'Sour', 'Bitter'].map((profile) => (
-                                    <Badge
-                                        key={profile}
-                                        pill
-                                        bg={profile === 'Sweet' ? 'primary' : profile === 'Sour' ? 'dark' : 'secondary'}
-                                        className={`taste-badge ${selectedProfiles.includes(profile) ? 'selected' : ''}`}
-                                        onClick={() => handleBadgeClick(profile)}
-                                        style={{
-                                            cursor: 'pointer',
-                                            marginRight: '10px',
-                                            fontSize: '1rem',
-                                            padding: '10px 15px'
-                                        }}
-                                    >
-                                        {profile}
-                                    </Badge>
+                                {tasteProfiles.reduce((acc, profile, idx) => {
+                                    if (idx % 3 === 0) acc.push([]);
+                                    acc[acc.length - 1].push(profile);
+                                    return acc;
+                                }, []).map((row, rowIndex) => (
+                                    <Container className='d-flex justify-content-start'>
+                                        {row.map((profile) => (
+                                            <Badge
+                                                pill
+                                                bg={
+                                                    profile === 'Sweet' ? 'primary' :
+                                                    profile === 'Sour' ? 'dark' :
+                                                    profile === 'Bitter' ? 'warning' :
+                                                    profile === 'Malt' ? 'danger' :
+                                                    profile === 'Smoke' ? 'info' :
+                                                    'success'
+                                                }
+                                                className={`taste-badge ${selectedProfiles.includes(profile) ? 'selected' : ''}`}
+                                                onClick={() => handleBadgeClick(profile)}
+                                                style={{
+                                                    cursor: 'pointer',
+                                                    fontSize: '1rem',
+                                                    padding: '10px 15px',
+                                                    marginTop: '15px'
+                                                }}
+                                            >
+                                                {profile}
+                                            </Badge>
+                                        ))}
+                                        </Container>
                                 ))}
                             </div>
                         </Form.Group>

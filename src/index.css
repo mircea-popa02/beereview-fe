@@ -31,12 +31,6 @@ code {
     height: 100%;
 }
 
-.card-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: auto;
-}
-
 .star-empty {
     color: #6c757d;
 }

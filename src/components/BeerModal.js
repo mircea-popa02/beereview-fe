@@ -1,11 +1,12 @@
-import {useEffect, useState} from "react";
-import {Badge, Button, Modal} from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Badge, Button, Modal } from "react-bootstrap";
+import Review from "./Review";
 
-const BeerModal = ({show, handleClose, beer}) => {
+const BeerModal = ({ show, handleClose, beer }) => {
     const [reviews, setReviews] = useState([]);
 
     useEffect(() => {
-        if (beer && beer.id) {
+        if (show && beer && beer.id) {
             fetch(`http://localhost:5000/reviews/beer/${beer.id}`, {
                 method: "GET",
                 headers: {
@@ -20,7 +21,7 @@ const BeerModal = ({show, handleClose, beer}) => {
                     console.error("Error:", error);
                 });
         }
-    }, [beer]);
+    }, [show, beer]);  // Trigger effect when 'show' or 'beer' changes
 
     if (!beer) {
         return null;
@@ -41,7 +42,7 @@ const BeerModal = ({show, handleClose, beer}) => {
                 </p>
                 <p>
                     <strong>ABV:</strong>{" "}
-                    {beer.abv ? parseFloat(beer.abv).toFixed(2) : "N/A"}%
+                    {beer.abv ? parseFloat(beer.abv).toFixed(1) : "N/A"}%
                 </p>
 
                 {reviews.length > 0 && <h4>Reviews</h4>}
@@ -60,7 +61,8 @@ const BeerModal = ({show, handleClose, beer}) => {
                     </div>
                 ))}
             </Modal.Body>
-            <Modal.Footer>
+            <Modal.Footer className="d-flex justify-content-between">
+                <Review beerId={beer.id}/>
                 <Button variant="danger" onClick={handleClose}>
                     Close
                 </Button>

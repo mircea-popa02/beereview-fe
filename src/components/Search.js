@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import CustomNavbar from "./Navbar";
-import {Button, Card, Container, Form} from "react-bootstrap";
+import { Button, Card, Container, Form } from "react-bootstrap";
 import Spinner from 'react-bootstrap/Spinner';
-import Review from "./Review";
 import BeerModal from "./BeerModal";
 import "../styles/Search.css";
 
@@ -16,17 +15,26 @@ const Search = () => {
     const [show, setShow] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
+    const [favorites, setFavorites] = useState([]);
     const itemsPerPage = 10;
     const pageButtonLimit = 5; // Number of page buttons to show at once
 
     const handleClose = () => setShow(false);
-    const handleShow = (brewery) => {
-        setSelectedItem(brewery);
+    const handleShow = (beer) => {
+        setSelectedItem(beer);
         setShow(true);
     };
 
     useEffect(() => {
         fetchAllBeers().then((data) => setAllBeers(data));
+        fetchAllFavourites()
+            .then((favoriteBeers) => {
+                const beerIds = favoriteBeers.map((beer) => beer.id);
+                setFavorites(beerIds);
+            })
+            .catch((error) => {
+                console.error('Error fetching favorites:', error);
+            });
         fetchBeerCategories().then((data) => setCategories(data));
     }, []);
 
@@ -91,6 +99,17 @@ const Search = () => {
         return await response.json();
     };
 
+    const fetchAllFavourites = async () => {
+        const response = await fetch(`http://localhost:5000/favourites`, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+        return await response.json();
+    };
+
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
     };
@@ -141,6 +160,56 @@ const Search = () => {
                 </Button>
             </div>
         );
+    };
+
+    const toggleFavorite = (beerId) => {
+        setFavorites((prevFavorites) => {
+            if (prevFavorites.includes(beerId)) {
+                // API call to delete beer from favorites
+                try {
+                    const response = fetch('http://localhost:5000/favorites', {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        },
+                        body: JSON.stringify({'beer_id': beerId}),
+                    });
+        
+                    if (response.ok) {
+                        console.log('Beer removed from favorites.');
+                    } else {
+                        console.error('Failed removing from favorites.');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+
+                return prevFavorites.filter((id) => id !== beerId);
+            } else {
+                // API call to add beer to favorites
+                try {
+                    const response = fetch('http://localhost:5000/favorites', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        },
+                        body: JSON.stringify({'beer_id': beerId}),
+                    });
+        
+                    if (response.ok) {
+                        console.log('Beer added to favorites.');
+                    } else {
+                        console.error('Failed adding to favorites');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+
+                return [...prevFavorites, beerId];
+            }
+        });
     };
 
     return (
@@ -196,10 +265,10 @@ const Search = () => {
                                             <Card.Text>{beer.cat_name}</Card.Text>
                                             <Card.Text>{beer.style_name}</Card.Text>
                                             <Card.Text>
-                                                {beer.abv ? parseFloat(beer.abv).toFixed(2) : "N/A"}%
+                                                {beer.abv ? parseFloat(beer.abv).toFixed(1) : "N/A"}%
                                                 alcohol
                                             </Card.Text>
-                                            <Container className="card-buttons">
+                                            <Container className="d-flex justify-content-between">
                                                 <Button
                                                     variant="primary"
                                                     onClick={() => {
@@ -208,7 +277,16 @@ const Search = () => {
                                                 >
                                                     Details
                                                 </Button>
-                                                <Review beerId={beer.id}/>
+                                                <i
+                                                    className={`fa ${favorites.includes(beer.id) ? 'fa-star' : 'fa-star-o'}`}
+                                                    onClick={() => toggleFavorite(beer.id)}
+                                                    style={{
+                                                        marginTop: '0.5rem',
+                                                        fontSize: '1.5rem',
+                                                        cursor: 'pointer',
+                                                        color: favorites.includes(beer.id) ? 'gold' : 'black'
+                                                    }}
+                                                />
                                             </Container>
                                         </Card.Body>
                                     </Card>

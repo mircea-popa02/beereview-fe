@@ -156,7 +156,7 @@ const Discover = () => {
                                                 <Card.Text>{beer.style_name}</Card.Text>
                                                 <Card.Text>
                                                     {beer.abv
-                                                        ? parseFloat(beer.abv).toFixed(2)
+                                                        ? parseFloat(beer.abv).toFixed(1)
                                                         : "N/A"}
                                                     % alcohol
                                                 </Card.Text>
