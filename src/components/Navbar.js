@@ -2,6 +2,11 @@ import React from "react";
 import {Button, Container, Nav, Navbar} from "react-bootstrap";
 
 const CustomNavbar = () => {
+    const handleLogout = () => {
+        localStorage.clear();
+        window.location.href = "/login";
+    }
+
     return (
         <Navbar bg="dark" data-bs-theme="dark">
             <Container>
@@ -16,7 +21,7 @@ const CustomNavbar = () => {
                     <Nav.Link href="/login">
                         <Button
                             variant="danger"
-                            onClick={() => localStorage.removeItem("token")}
+                            onClick={handleLogout}
                         >
                             Logout
                         </Button>
