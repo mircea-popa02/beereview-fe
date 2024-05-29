@@ -5,6 +5,7 @@ import "../styles/Reviews.css";
 import Rating from "react-rating";
 import { Card } from "react-bootstrap";
 import { Badge } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -28,10 +29,36 @@ const Reviews = () => {
 
     fetchReviews();
   }, []);
+
+  const handleDelete = async (reviewId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/reviews/${reviewId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        console.log("Review deleted successfully");
+        setReviews(reviews.filter((review) => review._id !== reviewId));
+      } else {
+        console.error("Error deleting review");
+      }
+    } catch (error) {
+      console.error("Error deleting review:", error);
+    }
+  };
+
   return (
     <>
       <Container style={{ padding: 0, marginBottom: "2rem" }}>
         <h1>Reviews</h1>
+        <p>Here are your latest reviews</p>
         <div className="review-list">
           {reviews.map((review) => (
             <Card className="review-container">
@@ -54,14 +81,27 @@ const Reviews = () => {
                   initialRating={review.rating}
                   readonly
                 />
-                {/* map review.tastes */}
                 <div className="taste-profiles">
                   {review.tastes.map((taste) => (
-                    <Badge key={taste} className="taste" pill bg="info" style={{marginRight: '0.5rem'}}>
+                    <Badge
+                      key={taste}
+                      className="taste"
+                      pill
+                      bg="info"
+                      style={{ marginRight: "0.5rem" }}
+                    >
                       {taste}
                     </Badge>
                   ))}
                 </div>
+                <hr style={{ margin: "1rem 0" }} />
+                <Button
+                  variant="danger"
+                  onClick={() => handleDelete(review._id)}
+                  size="sm"
+                >
+                  Delete
+                </Button>
               </div>
               <div className="product-info">
                 <h3>{review.beer.name}</h3>

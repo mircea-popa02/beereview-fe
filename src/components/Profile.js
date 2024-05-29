@@ -4,6 +4,7 @@ import CustomNavbar from "./Navbar";
 import BeerModal from "./BeerModal";
 import Recommended from "./Recommended";
 import Reviews from "./Reviews";
+import ChatGPTRecommended from "./ChatGPTRecommended";
 
 const Profile = () => {
   const [show, setShow] = useState(false);
@@ -110,15 +111,28 @@ const Profile = () => {
   return (
     <>
       <CustomNavbar />
+
       <Container
-        style={{ width: "70vw", backgroundColor: "white", padding: "2rem"}}
+        style={{ width: "70vw", backgroundColor: "white", padding: "2rem" }}
       >
+        <h1 style={{ marginBottom: "0" }}>Hello,</h1>
+        <h3 style={{ marginTop: "0", color: "gray" }}>
+          {localStorage.getItem("username")}
+        </h3>
+        <p>
+          This is your profile page. Here you can see your{" "}
+          <strong>favorite beers</strong>, write <strong>reviews</strong>, and
+          get <strong>recommendations</strong>
+        </p>
+        <hr style={{ margin: "2rem 0" }} />
         {loading ? (
           <Spinner animation="border" role="status">
             <span className="visually-hidden">Loading...</span>
           </Spinner>
         ) : (
           <>
+            <Reviews />
+
             <h1>Favourite Beers</h1>
             <p>Here are the beers you've favorited</p>
             <div className="search-results">
@@ -159,6 +173,7 @@ const Profile = () => {
                   </Card>
                 ))}
             </div>
+
             {renderPaginationButtons()}
             {selectedItem && (
               <BeerModal
@@ -168,14 +183,10 @@ const Profile = () => {
               />
             )}
 
-            <Reviews />
+            <hr style={{ margin: "2rem 0" }} />
 
+            <ChatGPTRecommended />
             <Recommended />
-
-            <h1>AI recommendations</h1>
-            <p>
-              Try out our AI-powered recommendation engine to find your next favorite beer
-            </p>
           </>
         )}
       </Container>

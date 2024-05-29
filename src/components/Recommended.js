@@ -67,7 +67,7 @@ const Recommended = () => {
 
   return (
     <div className="recommended">
-      <h1>Recommended beers</h1>
+      <h1>Other beers you might like</h1>
       <p>Here are some beers you might like based on your taste profile</p>
       <div className="recommended_container">
         {loading ? (
