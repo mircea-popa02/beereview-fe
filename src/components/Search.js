@@ -167,7 +167,7 @@ const Search = () => {
             if (prevFavorites.includes(beerId)) {
                 // API call to delete beer from favorites
                 try {
-                    const response = fetch('http://localhost:5000/favorites', {
+                    const response = fetch('http://localhost:5000/favourites', {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
@@ -189,7 +189,7 @@ const Search = () => {
             } else {
                 // API call to add beer to favorites
                 try {
-                    const response = fetch('http://localhost:5000/favorites', {
+                    const response = fetch('http://localhost:5000/favourites', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -215,7 +215,7 @@ const Search = () => {
     return (
         <>
             <CustomNavbar/>
-            <Container className="search-container">
+            <Container className="search-container" style={{ width: "70vw", backgroundColor: "white", padding: "2rem"}}>
                 <h1>Search</h1>
                 <p>
                     Page <strong>{currentPage} of {Math.ceil(searchResults.length / itemsPerPage)}</strong>
@@ -258,10 +258,10 @@ const Search = () => {
                     <>
                         <div className="search-results">
                             {displayedResults &&
-                                displayedResults.map((beer) => (
+                                displayedResults.map((beer, index) => (
                                     <Card key={beer.id} style={{width: "18rem"}}>
                                         <Card.Body className="card-body">
-                                            <Card.Title>{beer.name}</Card.Title>
+                                            <Card.Title>{index + 1}. {beer.name}</Card.Title>
                                             <Card.Text>{beer.cat_name}</Card.Text>
                                             <Card.Text>{beer.style_name}</Card.Text>
                                             <Card.Text>
